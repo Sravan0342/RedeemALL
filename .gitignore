@@ -1,0 +1,9 @@
+# Never commit keys or secrets
+*.pem
+*.key
+*.ppk
+.env
+# OS / editor files
+.DS_Store
+Thumbs.db
+.vscode/
