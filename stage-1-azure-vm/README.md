@@ -1,5 +1,7 @@
 # Stage 1: Secure Azure VM web server
 
+> Part of the **RedeemALL** idea: one place to track every credit card offer so none expire unused. See the [main page](../README.md) for the concept. The HTML here is just the first demo screen; the focus of this stage is the secured Azure hosting behind it.
+
 ## Goal
 Create a Linux VM in Azure inside its own virtual network, lock it down with a network security group, and host a PHP web page on it with Apache.
 
