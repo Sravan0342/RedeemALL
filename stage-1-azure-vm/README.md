@@ -26,8 +26,16 @@ Create a Linux VM in Azure inside its own virtual network, lock it down with a n
 6. Opened the site at `http://<public-ip>/`.
 
 ## Files
-- [`app/index.php`](app/index.php): the web page served by the VM.
-- [`screenshots/`](screenshots/): portal and browser screenshots.
+| Path | What it is |
+|------|------------|
+| [`app/index.php`](app/index.php) | The PHP offers page served by Apache on the VM |
+| [`app/IMAGES/`](app/IMAGES/) | Logo and offer icons used by the page (PNG + SVG) |
+| [`app/basic.html`](app/basic.html) | The first static HTML version of the page |
+| [`app/templates/`](app/templates/) | HTML templates and `css/style.css` for the RedeemALL app screens (offers, cards, add offer, login) |
+| [`docs/SETUP-STEPS.md`](docs/SETUP-STEPS.md) | Commands used to install Apache/PHP, copy files and set permissions |
+| [`screenshots/`](screenshots/) | Screenshots of the running site |
+
+![Offers page running on the VM](screenshots/offers-page.png)
 
 ## What I learned
 _TBD_

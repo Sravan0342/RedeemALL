@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head('Sign in')}"></head>
+<body class="center">
+<main class="card-box narrow">
+    <h1>RedeemALL</h1>
+    <p class="muted">Every card offer in one place.</p>
+
+    <p class="flash err" th:if="${param.error}">Wrong username or password.</p>
+    <p class="flash ok" th:if="${param.logout}">You have signed out.</p>
+
+    <form th:action="@{/login}" method="post">
+        <label>Username <input name="username" autofocus required></label>
+        <label>Password <input name="password" type="password" required></label>
+        <button type="submit">Sign in</button>
+    </form>
+    <p class="muted small">Test account: <code>demo</code> / <code>demo123</code></p>
+</main>
+</body>
+</html>

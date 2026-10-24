@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head('Offers')}"></head>
+<body>
+<header th:replace="~{layout :: nav}"></header>
+<main>
+    <h1 th:text="'Hi ' + ${user.displayName}">Hi</h1>
+    <div th:replace="~{layout :: messages}"></div>
+
+    <section class="stats">
+        <div><strong th:text="${activeCount}">0</strong> active</div>
+        <div class="warn"><strong th:text="${soonCount}">0</strong> expiring in 7 days</div>
+        <div><strong th:text="${usedCount}">0</strong> used</div>
+    </section>
+
+    <p th:if="${#lists.isEmpty(offers)}" class="muted">
+        No offers yet. <a th:href="@{/offers/new}">Add your first one.</a>
+    </p>
+
+    <table th:unless="${#lists.isEmpty(offers)}">
+        <thead>
+        <tr><th>Offer</th><th>Value</th><th>Card</th><th>Expires</th><th></th></tr>
+        </thead>
+        <tbody>
+        <tr th:each="o : ${offers}"
+            th:classappend="${o.used} ? 'used' : (${o.expired} ? 'expired' : (${o.expiringSoon} ? 'soon' : ''))">
+            <td>
+                <strong th:text="${o.title}">Title</strong>
+                <div class="muted small" th:if="${o.merchant}" th:text="${o.merchant}"></div>
+                <div class="small" th:if="${o.details}" th:text="${o.details}"></div>
+            </td>
+            <td th:text="${o.valueText} ?: '-'"></td>
+            <td th:text="${o.card.label}"></td>
+            <td>
+                <span th:if="${o.expiresOn}" th:text="${#temporals.format(o.expiresOn, 'dd MMM yyyy')}"></span>
+                <span th:unless="${o.expiresOn}" class="muted">No expiry</span>
+                <span class="tag" th:if="${o.expired and !o.used}">Expired</span>
+                <span class="tag" th:if="${o.expiringSoon and !o.used}">Soon</span>
+            </td>
+            <td class="actions">
+                <form th:action="@{/offers/{id}/toggle-used(id=${o.id})}" method="post" class="inline">
+                    <button type="submit" th:text="${o.used} ? 'Mark unused' : 'Mark used'">Mark used</button>
+                </form>
+                <form th:action="@{/offers/{id}/delete(id=${o.id})}" method="post" class="inline"
+                      onsubmit="return confirm('Delete this offer?')">
+                    <button type="submit" class="danger">Delete</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

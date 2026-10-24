@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>RedeemALL · Offers</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: system-ui, sans-serif; background: #f5f6f8; color: #1d2330; }
+        main { max-width: 960px; margin: 0 auto; padding: 24px 16px; }
+        h1 { margin-top: 0; }
+        a { color: #2457d6; text-decoration: none; }
+        .topbar { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: #1d2330; }
+        .topbar a { color: #fff; margin-left: 16px; }
+        .brand { font-weight: 700; margin-left: 0 !important; }
+        .card-box { background: #fff; border-radius: 10px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+        .stats { display: flex; gap: 12px; margin-bottom: 20px; }
+        .stats div { background: #fff; padding: 12px 16px; border-radius: 10px; }
+        .stats strong { font-size: 1.5rem; display: block; }
+        table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 10px; }
+        th, td { text-align: left; padding: 10px; border-bottom: 1px solid #eceef2; }
+        button { padding: 8px 14px; border: 0; border-radius: 6px; background: #2457d6; color: #fff; cursor: pointer; }
+        button.danger { background: #c7362b; }
+    </style>
+</head>
+<body>
+    <header class="topbar">
+        <a class="brand" href="#">RedeemALL</a>
+        <nav>
+            <a href="#">Offers</a>
+            <a href="#">Add offer</a>
+            <a href="#">My cards</a>
+            <a href="#">Sign out demo</a>
+        </nav>
+    </header>
+    <main>
+        <h1>Hi demo</h1>
+        <section class="stats">
+            <div><strong>2</strong> active</div>
+            <div><strong>1</strong> expiring in 7 days</div>
+            <div><strong>0</strong> used</div>
+        </section>
+        <table>
+            <thead>
+                <tr><th>Offer</th><th>Value</th><th>Card</th><th>Expires</th><th>Actions</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Hotel Cashback</strong><div class="muted">Demo Hotels</div></td>
+                    <td>$50 back</td>
+                    <td>Travel card (...1234)</td>
+                    <td>15 Oct 2026</td>
+                    <td><button class="danger">Delete</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+</body>
+</html>

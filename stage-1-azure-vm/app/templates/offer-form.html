@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head('Add offer')}"></head>
+<body>
+<header th:replace="~{layout :: nav}"></header>
+<main>
+    <h1>Add an offer</h1>
+    <form th:action="@{/offers}" th:object="${offerForm}" method="post" class="card-box">
+        <label>Card
+            <select th:field="*{cardId}">
+                <option value="">Choose a card</option>
+                <option th:each="c : ${cards}" th:value="${c.id}" th:text="${c.label}"></option>
+            </select>
+        </label>
+        <p class="field-err" th:errors="*{cardId}"></p>
+
+        <label>Title <input th:field="*{title}" placeholder="Hotel cashback"></label>
+        <p class="field-err" th:errors="*{title}"></p>
+
+        <label>Merchant <input th:field="*{merchant}" placeholder="Demo Hotels"></label>
+        <label>Value <input th:field="*{valueText}" placeholder="$50 back, 5% off, 2x points"></label>
+        <label>Details <textarea th:field="*{details}" rows="3" placeholder="Minimum spend, how to redeem..."></textarea></label>
+        <label>Expires on <input type="date" th:field="*{expiresOn}"></label>
+
+        <button type="submit">Save offer</button>
+    </form>
+</main>
+</body>
+</html>
