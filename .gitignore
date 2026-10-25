@@ -7,3 +7,6 @@
 .DS_Store
 Thumbs.db
 .vscode/
+
+# Real database settings live on the server only
+config.php
