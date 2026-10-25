@@ -8,9 +8,10 @@ Create a Linux VM in Azure inside its own virtual network, lock it down with a n
 ## What I built
 | Resource | Setting |
 |----------|---------|
-| Resource group | `RedeemALL_RG` |
-| Virtual network (VNet) | Address space `10.0.0.0/16` |
-| Subnet | `10.0.1.0/24` |
+| Resource group | `RedeemALL` |
+| Region | Canada Central |
+| Virtual network (VNet) | `RedeemALL_vnet`, address space `10.0.0.0/16` |
+| Subnet | `WebSUB` `10.0.1.0/24` (private subnet: no default outbound access) |
 | Network security group (NSG) | Attached to the VM's network interface (rules below) |
 | Virtual machine | Ubuntu 24.04 LTS, Gen 2, x64 |
 | Sign-in | SSH with username and password |
@@ -30,14 +31,14 @@ Internet
    ▼
 NSG (on the VM's network interface)
    │
-VNet 10.0.0.0/16
- └─ Subnet 10.0.1.0/24
+RedeemALL_vnet 10.0.0.0/16
+ └─ WebSUB 10.0.1.0/24
      └─ Ubuntu 24.04 VM ── Apache2 + PHP ── /var/www/html
 ```
 
 ## Steps
-1. Created the resource group `RedeemALL_RG`.
-2. Created the VNet (`10.0.0.0/16`) with a subnet (`10.0.1.0/24`).
+1. Created the resource group `RedeemALL` in Canada Central.
+2. Created the VNet `RedeemALL_vnet` (`10.0.0.0/16`) with the subnet `WebSUB` (`10.0.1.0/24`).
 3. Created the Ubuntu 24.04 VM in that subnet.
 4. Created the NSG, attached it to the VM's network interface, and allowed SSH from my IP only plus HTTP from anywhere.
 5. Signed in over SSH and installed Apache2 and PHP (see [docs/SETUP-STEPS.md](docs/SETUP-STEPS.md)).

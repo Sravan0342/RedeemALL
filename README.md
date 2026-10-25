@@ -28,7 +28,6 @@ The goal is simple: **redeem all of it, waste none of it.**
 |-------|---------------|--------|
 | 1 | [**Azure VM web server**](stage-1-azure-vm/): a secured Ubuntu VM in its own network, serving the first RedeemALL offers page | Done |
 | 2 | [**Database and storage**](stage-2/): offers saved in MySQL on a private database VM, images in a private Storage account | In progress |
-| 3 | [Coming next](stage-3/) | Planned |
 
 Each stage builds on the previous one, moving from a single demo page toward a full app.
 
