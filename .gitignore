@@ -9,4 +9,5 @@ Thumbs.db
 .vscode/
 
 # Real database settings live on the server only
+db.php
 config.php

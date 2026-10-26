@@ -1,65 +1,36 @@
-# RedeemALL Stage 2: login page connected to MySQL
+# Stage 2 setup steps
 
-Files:
-- `users.sql`: adds the `users` table and the demo login (demo / demo123)
-- `config.php`: database settings (goes OUTSIDE the web folder)
-- `index.php`: login page + offers from MySQL (Mark used, Delete, Add offer)
+## 1. Network and database VM (Azure portal)
+1. In `RedeemALL_vnet`, add subnet `DbSUB` `10.0.2.0/24`. Untick **Enable private subnet** so the VM can download packages.
+2. Create VM `redeemall-db` (Ubuntu 24.04, Standard_B1s) in `DbSUB`, **Public IP: None**, with a new NSG.
+3. NSG inbound rules:
 
-## 1. On the DB VM: add the users table
+| Priority | Name | Source | Port | Action |
+|---|---|---|---|---|
+| 100 | Allow-MySQL-from-web | 10.0.1.0/24 | 3306 | Allow |
+| 110 | Allow-SSH-from-web | 10.0.1.0/24 | 22 | Allow |
+| 4000 | Deny-other-VNet | VirtualNetwork | Any | Deny |
 
-Copy the contents of `users.sql`, then:
-
+## 2. Install MySQL (from the web VM)
 ```bash
-sudo mysql
-```
-Paste it and type `EXIT;`.
-
-## 2. On the DB VM: let MySQL accept connections from the web VM
-
-By default MySQL only listens to itself (127.0.0.1).
-
-```bash
-sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
-```
-Change `bind-address = 127.0.0.1` to `bind-address = 0.0.0.0`, save (Ctrl+O, Enter, Ctrl+X), then:
-
-```bash
+ssh <admin-user>@<db-vm-private-ip>     # jump from the web VM
+sudo apt update && sudo apt install -y mysql-server
+sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf   # bind-address = 0.0.0.0
 sudo systemctl restart mysql
-sudo ss -ltnp | grep 3306      # should show 0.0.0.0:3306
 ```
-This is safe because the NSG only lets WebSUB (10.0.1.0/24) reach port 3306.
 
-## 3. On the web VM: install the PHP MySQL driver and test the connection
-
+## 3. Create the database
 ```bash
-sudo apt install -y php-mysql mysql-client
+sudo mysql < redeemall.sql      # or paste db/redeemall.sql after: sudo mysql
+```
+Use your own password in place of `CHANGE_ME`.
+
+## 4. Web VM: connect PHP to MySQL
+```bash
+sudo apt install -y php-mysql
 sudo systemctl restart apache2
-mysql -h 10.0.2.4 -u redeemuser -p REDEEMALL -e "SELECT COUNT(*) FROM offers;"
 ```
-Use your DB VM's real private IP if it isn't 10.0.2.4. If this prints a number, the two VMs can talk.
-
-## 4. On the web VM: put the files in place
-
-Copy `config.php` and `index.php` to the web VM with WinSCP (to your home folder), then:
-
-```bash
-sudo mv ~/config.php /var/www/config.php
-sudo nano /var/www/config.php        # set the DB IP and your real password
-sudo chown root:www-data /var/www/config.php
-sudo chmod 640 /var/www/config.php   # only Apache can read it
-
-sudo cp /var/www/html/index.php /var/www/html/index-stage1.php   # backup of the old page
-sudo mv ~/index.php /var/www/html/index.php
-sudo chown www-data:www-data /var/www/html/index.php
-sudo chmod 644 /var/www/html/index.php
-```
-Keep the `IMAGES` folder where it already is (`/var/www/html/IMAGES`).
+Copy `app/index.php` and `app/db.example.php` to `/var/www/html/` with WinSCP, rename `db.example.php` to `db.php`, and put in the DB VM's private IP and the password. Keep the `IMAGES` folder from Stage 1 in the same place.
 
 ## 5. Test
-
-Open `http://<web-vm-public-ip>/` and sign in with **demo / demo123**.
-
-## If something goes wrong
-- **"Cannot connect to the database"**: check the IP and password in `/var/www/config.php`, that step 3's test works, and `sudo tail -n 20 /var/log/apache2/error.log`.
-- **Blank page**: same error log.
-- **"Wrong username or password"**: check step 1 ran: `SELECT username FROM users;` on the DB VM.
+Open `http://<web-vm-public-ip>/`. The offers now come from MySQL, and **Mark as used** saves to the database.

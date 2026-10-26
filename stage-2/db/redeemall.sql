@@ -36,6 +36,6 @@ INSERT INTO offers (card_id, title, merchant, value_text, expires_on, is_used, i
 
 -- App user: can only sign in from the web subnet (WebSUB 10.0.1.0/24).
 -- Replace the password with your own and never commit the real one.
-CREATE USER 'redeemuser'@'10.0.1.%' IDENTIFIED BY 'ChooseAStrongPassword!';
+CREATE USER 'redeemuser'@'10.0.1.%' IDENTIFIED BY 'CHANGE_ME';
 GRANT ALL PRIVILEGES ON REDEEMALL.* TO 'redeemuser'@'10.0.1.%';
 FLUSH PRIVILEGES;
