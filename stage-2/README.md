@@ -3,7 +3,7 @@
 > Part of the **RedeemALL** idea: one place to track every credit card offer so none expire unused. See the [main page](../README.md).
 > In Stage 1 the offers were typed into the PHP code. In Stage 2 they live in a **MySQL database on a private VM**, and the website reads and updates them from there.
 
-![Offers loaded live from MySQL on my Azure VM](screenshots/offers-from-mysql.png)
+![Offers loaded live from MySQL on my Azure VM](screenshots/live-offers-page.png)
 
 *Live screenshot from my web VM: every card on this page comes from the `offers` table on the private DB VM.*
 

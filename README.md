@@ -31,7 +31,7 @@ The goal is simple: **redeem all of it, waste none of it.**
 
 Each stage builds on the previous one, moving from a single demo page toward a full app.
 
-![RedeemALL live: offers loaded from MySQL](stage-2/screenshots/offers-from-mysql.png)
+![RedeemALL live: offers loaded from MySQL](stage-2/screenshots/live-offers-page.png)
 
 *Live from my Azure web VM (Stage 2): every offer is read from MySQL on a private database VM. Demo data, no real cards.*
 
