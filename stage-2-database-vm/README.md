@@ -80,5 +80,6 @@ Only the last 4 digits of a card are stored, never the full number. Full SQL: [d
 - Reading `/var/log/apache2/error.log` turns a blank "HTTP 500" into the real error.
 
 ## Next
-- Move the offer images into an **Azure Storage account** reached through a private endpoint.
+- [Stage 3](../stage-3-storage-account/): move the offer images into an **Azure Storage account** reached through a private endpoint.
+- [Stage 4](../stage-4-scale-set-load-balancer/): run the web tier as a VM Scale Set behind a load balancer.
 - Switch VM sign-in from passwords to SSH keys.
