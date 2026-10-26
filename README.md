@@ -22,16 +22,35 @@ Most people carry several credit cards, and each one comes with coupons, cashbac
 
 The goal is simple: **redeem all of it, waste none of it.**
 
-## What you'll find here
+## The build, stage by stage
 
-| Stage | What it shows | Status |
-|-------|---------------|--------|
-| 1 | [**Azure VM web server**](stage-1-azure-vm/): a secured Ubuntu VM in its own network, serving the first RedeemALL offers page | Done |
-| 2 | [**Private database VM**](stage-2/): offers saved in MySQL on a database VM with no public IP, reachable only from the web VM | Done |
+Each stage adds one real-world cloud skill on top of the last, moving RedeemALL from a single demo page to a resilient, scalable app.
 
-Each stage builds on the previous one, moving from a single demo page toward a full app.
+| Stage | What I build | Cloud skill it shows | Status |
+|-------|--------------|----------------------|--------|
+| 1 | [**Secure web server**](stage-1-azure-vm/): an Ubuntu VM in its own VNet, locked down with an NSG, serving the RedeemALL page with Apache and PHP | Networking, NSGs, Linux web hosting | Done |
+| 2 | [**Private database**](stage-2-database-vm/): offers stored in MySQL on a second VM with **no public IP**, reachable only from the web server | Multi-tier design, private subnets, MySQL | Done |
+| 3 | [**Storage account**](stage-3-storage-account/): offer images moved to Azure Blob Storage behind a private endpoint, read with a managed identity | Blob Storage, private endpoints, managed identity | Planned |
+| 4 | [**Scale set and load balancer**](stage-4-scale-set-load-balancer/): the web server becomes a versioned VM Scale Set behind an Azure Load Balancer with autoscale | High availability, autoscaling, image versioning | Planned |
 
-![RedeemALL live: offers loaded from MySQL](stage-2/screenshots/live-offers-page.png)
+### Where it ends up (after Stage 4)
+```
+                         Visitors
+                            │ HTTP
+                            ▼
+              Azure Load Balancer (public IP)            Stage 4
+                 ┌──────────┼──────────┐
+                 ▼          ▼          ▼
+               web-0      web-1      web-n               Stage 4: VM Scale Set
+                 └──────────┼──────────┘                 (Stage 1 web server, now versioned)
+                            │            RedeemALL_vnet 10.0.0.0/16
+              ┌─────────────┴──────────────┐
+              ▼                            ▼
+     MySQL DB VM, no public IP      Storage account, private endpoint
+     Stage 2                        Stage 3
+```
+
+![RedeemALL live: offers loaded from MySQL](stage-2-database-vm/screenshots/live-offers-page.png)
 
 *Live from my Azure web VM (Stage 2): every offer is read from MySQL on a private database VM. Demo data, no real cards.*
 
@@ -39,7 +58,7 @@ Each stage builds on the previous one, moving from a single demo page toward a f
 
 - **Idea and direction:** mine. I decide what RedeemALL should do and how it should feel.
 - **Code:** written with AI help ("vibe coding"), then reviewed, deployed and tested by me.
-- **Cloud:** I set up and secure the Azure infrastructure myself (VNet, NSG, VM, Apache, PHP).
+- **Cloud:** I set up and secure the Azure infrastructure myself: VNet, NSGs, VMs, MySQL, Storage, Load Balancer and Scale Sets.
 
 ## Where it's heading
 
